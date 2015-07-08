@@ -15,7 +15,7 @@ import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "item")
 @SessionScoped
-public class Item implements Serializable {
+public class ProductItem implements Serializable {
 
    private static final long serialVersionUID = 1L;
    private String item;

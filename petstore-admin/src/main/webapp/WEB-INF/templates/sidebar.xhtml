@@ -6,13 +6,18 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-<h2> QUICK LINKS</h2>
+	<h:outputScript name="jquery/jquery.js" library="primefaces"></h:outputScript>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+	
 </h:head>
-<h:body>
-<h:form >
-<h:commandLink value="Category" action="#{sidebar.sendToCategoryPage()}" />
+<h:body >
+<div id="sideLinks" class="menuLeft">
+<h2>QUICK LINKS</h2>
+<h:form id="sidebarForm">
+<h:commandLink value="Category" action="#{sidebar.sendToCategoryPage()}" styleClass="menuLeftText" />
 <p:spacer/> <br/>
-<h:commandLink value="Product" action="#{sidebar.sendToProductPage()}" />
+<h:commandLink value="Product" action="#{sidebar.sendToProductPage()}" styleClass="menuLeftText" />
 </h:form>
+</div>
 </h:body>
 </html>
