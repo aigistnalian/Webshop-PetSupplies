@@ -9,14 +9,14 @@ import java.io.Serializable;
  * @author analian
  *
  */
-public class OrderBean implements Serializable {
+public class ProductBean implements Serializable {
 	 
     private static final long serialVersionUID = 1L;
     private String item;
     private String desc;
     private Double price;
  
-    public OrderBean(String item, String desc, Double price) {
+    public ProductBean(String item, String desc, Double price) {
         this.item = item;
         this.desc = desc;
         this.price = price;

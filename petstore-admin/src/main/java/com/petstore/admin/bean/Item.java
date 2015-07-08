@@ -21,7 +21,7 @@ public class Item implements Serializable {
    private String item;
    private String description;
    private Double price;
-   OrderBean order;
+   ProductBean product;
    private String category; 
    private Map<String,String> categories;
    
@@ -55,22 +55,15 @@ public class Item implements Serializable {
        this.price = price;
    }
 
-   public OrderBean getOrder() {
-       return order;
-   }
+   private static final ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
 
-   public void setOrder(OrderBean order) {
-       this.order = order;
-   }
-   private static final ArrayList<OrderBean> orderList = new ArrayList<OrderBean>();
-
-   public ArrayList<OrderBean> getOrderList() {
-       return orderList;
+   public ArrayList<ProductBean> getProductList() {
+       return productList;
    }
 
    public String addAction() {
-       OrderBean orderitem = new OrderBean(this.item, this.description, this.price);
-       orderList.add(orderitem);
+       ProductBean productItem = new ProductBean(this.item, this.description, this.price);
+       productList.add(productItem);
 
        item = "";
        price = 0.0;
@@ -78,14 +71,14 @@ public class Item implements Serializable {
        return null;
    }
    public void onEdit(RowEditEvent event) {  
-       FacesMessage msg = new FacesMessage("Item Edited",((OrderBean) event.getObject()).getItem());  
+       FacesMessage msg = new FacesMessage("Item Edited",((ProductBean) event.getObject()).getItem());  
        FacesContext.getCurrentInstance().addMessage(null, msg);  
    }  
       
    public void onCancel(RowEditEvent event) {  
        FacesMessage msg = new FacesMessage("Item Cancelled");   
        FacesContext.getCurrentInstance().addMessage(null, msg); 
-       orderList.remove((OrderBean) event.getObject());
+       productList.remove((ProductBean) event.getObject());
    }
 
 /**
@@ -128,6 +121,20 @@ public String getDescription() {
  */
 public void setDescription(String description) {
 	this.description = description;
+}
+
+/**
+ * @return the product
+ */
+public ProductBean getProduct() {
+	return product;
+}
+
+/**
+ * @param product the product to set
+ */
+public void setProduct(ProductBean product) {
+	this.product = product;
 }  
    
 }
