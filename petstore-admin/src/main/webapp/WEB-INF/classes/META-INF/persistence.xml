@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd
+     http://java.sun.com/xml/ns/persistence/orm
+     http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="admin" transaction-type="JTA">
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>jboss/datasources/ExampleDS</jta-data-source>
+			<class>com.petstore.model.bo.User</class>
+			<class>com.petstore.model.bo.Roles</class>
+	</persistence-unit>
+</persistence>
