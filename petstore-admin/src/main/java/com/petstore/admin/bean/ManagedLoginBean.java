@@ -5,14 +5,14 @@ package com.petstore.admin.bean;
 
 import java.io.Serializable;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import com.petstore.dao.UserDAO;
+import com.petstore.service.LoginService;
 import com.petstore.util.Util;
 
 /**
@@ -30,8 +30,8 @@ public class ManagedLoginBean implements Serializable {
     private String password;
     private String message, uname;
     
-    @EJB(name="userDAO")
-    UserDAO userDAO;
+    @Inject 
+    LoginService loginService;
     
     public String logout() {
         HttpSession session = Util.getSession();
@@ -40,7 +40,7 @@ public class ManagedLoginBean implements Serializable {
      }
     
     public String loginProject(){
-    	  boolean result = userDAO.getLoginDetails(uname, password);
+    	  boolean result = loginService.validateUserLogin(uname, password);
           System.out.println(result);
           if (result) {
               // get Http Session and store username

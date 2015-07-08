@@ -2,7 +2,6 @@ package com.petstore.dao;
 
 import java.lang.reflect.ParameterizedType;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,7 +12,6 @@ import com.petstore.dao.DAO;
  * @param <K>
  * @param <E>
  */
-@Stateless
 public abstract class AbstractDAO<K, E> implements DAO<K, E> {
 
 	@PersistenceContext
