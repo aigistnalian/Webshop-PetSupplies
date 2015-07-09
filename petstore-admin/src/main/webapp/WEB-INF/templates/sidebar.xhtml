@@ -13,11 +13,17 @@
 <h:body >
 <div id="sideLinks" class="menuLeft">
 <h2>QUICK LINKS</h2>
+Welcome #{loginBean.uname}
+<br/>
+<hr/>
 <h:form id="sidebarForm">
 <center>
-<h:commandLink value="Category" action="#{sidebar.sendToCategoryPage()}" styleClass="menuLeftText" />
+<p:commandLink value="Category" action="#{sidebar.sendToCategoryPage()}" styleClass="menuLeftText" />
 <p:spacer/> <br/>
-<h:commandLink value="Product" action="#{sidebar.sendToProductPage()}" styleClass="menuLeftText" />
+<p:commandLink value="Product" action="#{sidebar.sendToProductPage()}" styleClass="menuLeftText" />
+<p:spacer/> <br/>
+<hr/>
+<p:commandLink value="Logout" action="#{sidebar.logout()}" styleClass="menuLeftText"/>
 </center>
 </h:form>
 </div>

@@ -33,12 +33,6 @@ public class ManagedLoginBean implements Serializable {
     @Inject 
     LoginService loginService;
     
-    public String logout() {
-        HttpSession session = Util.getSession();
-        session.invalidate();
-        return "login";
-     }
-    
     public String loginProject(){
     	  boolean result = loginService.validateUserLogin(uname, password);
           System.out.println(result);
@@ -46,8 +40,7 @@ public class ManagedLoginBean implements Serializable {
               // get Http Session and store username
               HttpSession session = Util.getSession();
               session.setAttribute("username", uname);
-   
-              return "category";
+              return "landing";
           } else {
    
               FacesContext.getCurrentInstance().addMessage(

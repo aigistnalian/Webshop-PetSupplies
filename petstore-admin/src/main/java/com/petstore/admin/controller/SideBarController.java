@@ -3,10 +3,11 @@
  */
 package com.petstore.admin.controller;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -17,9 +18,12 @@ import com.petstore.util.Util;
  *
  */
 @ManagedBean(name = "sidebar")
-@RequestScoped
-public class SideBarController {
-	private UIComponent hidden;
+@SessionScoped
+public class SideBarController implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8969017736390777114L;
 
 	public String sendToCategoryPage() {
 		HttpSession session = Util.getSession();
@@ -35,6 +39,12 @@ public class SideBarController {
 			return "login";
 		}
 	}
+	
+	 public String logout() {
+	        HttpSession session = Util.getSession();
+	        session.invalidate();
+	         return "/login?faces-redirect=true" ;
+	     }
 
 	public String sendToProductPage() {
 		HttpSession session = Util.getSession();
@@ -46,11 +56,4 @@ public class SideBarController {
 		}
 	}
 
-	public void setHidden(UIComponent hidden) {
-		this.hidden = hidden;
-	}
-
-	public UIComponent getHidden() {
-		return hidden;
-	}
 }

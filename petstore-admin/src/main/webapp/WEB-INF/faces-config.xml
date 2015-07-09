@@ -7,9 +7,14 @@
 	 <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>category</from-outcome>
-            <to-view-id>/main/category.xhtml</to-view-id>
+            <from-outcome>landing</from-outcome>
+            <to-view-id>/views/landing.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-
+ <navigation-rule>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
