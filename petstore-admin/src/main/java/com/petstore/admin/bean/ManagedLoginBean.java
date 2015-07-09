@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.petstore.constants.Constants;
 import com.petstore.service.LoginService;
 import com.petstore.util.Util;
 
@@ -34,20 +35,20 @@ public class ManagedLoginBean implements Serializable {
     LoginService loginService;
     
     public String loginProject(){
-    	  boolean result = loginService.validateUserLogin(uname, password);
+    	  boolean result = loginService.validateAdminUserLogin(uname, password);
           System.out.println(result);
           if (result) {
               // get Http Session and store username
               HttpSession session = Util.getSession();
-              session.setAttribute("username", uname);
+              session.setAttribute(Constants.USERNAME, uname);
               return "landing";
           } else {
    
               FacesContext.getCurrentInstance().addMessage(
                       null,
                       new FacesMessage(FacesMessage.SEVERITY_WARN,
-                      "Invalid Login!",
-                      "Please Try Again!"));
+                      Constants.INVALID_LOGIN_MESSAGE,
+                      Constants.TRY_AGAIN_MESSAGE));
    
               // invalidate session, and redirect to other pages
               

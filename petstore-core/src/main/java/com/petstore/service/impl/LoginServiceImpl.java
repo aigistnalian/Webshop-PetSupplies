@@ -2,7 +2,10 @@ package com.petstore.service.impl;
 
 import javax.inject.Inject;
 
+import com.petstore.constants.Constants;
 import com.petstore.dao.UserDAO;
+import com.petstore.model.bo.Roles;
+import com.petstore.model.bo.User;
 import com.petstore.service.LoginService;
 
 /**
@@ -15,8 +18,17 @@ public class LoginServiceImpl implements LoginService{
 	UserDAO userDAO;
 	
 	@Override
-	public boolean validateUserLogin(String userId, String password) {
-		boolean isUserValid = userDAO.getLoginDetails(userId, password);
+	public boolean validateAdminUserLogin(String userId, String password) {
+		boolean isUserValid = false; 
+		User user = userDAO.getLoginDetails(userId, password);
+		if(user.getRoles()!=null && !user.getRoles().isEmpty()){
+			for (Roles role : user.getRoles()) {
+				if(Constants.ADMIN.equalsIgnoreCase(role.getName())){
+					isUserValid = true;
+					break;
+				}
+			}
+		}
 		return isUserValid;
 	}
 }

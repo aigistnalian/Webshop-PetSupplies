@@ -9,6 +9,6 @@ import javax.ejb.Stateless;
 @Stateless
 public interface LoginService {
 
-	boolean validateUserLogin(String userId, String password);
+	boolean validateAdminUserLogin(String userId, String password);
 	
 }

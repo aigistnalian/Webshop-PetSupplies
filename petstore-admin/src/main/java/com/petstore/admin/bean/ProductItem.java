@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
 
+import com.petstore.constants.Constants;
+
 @ManagedBean(name = "item")
 @SessionScoped
 public class ProductItem implements Serializable {
@@ -65,9 +67,9 @@ public class ProductItem implements Serializable {
        ProductBean productItem = new ProductBean(this.item, this.description, this.price);
        productList.add(productItem);
 
-       item = "";
+       item = Constants.EMPTY;
        price = 0.0;
-       description = "";
+       description = Constants.EMPTY;
        return null;
    }
    public void onEdit(RowEditEvent event) {  

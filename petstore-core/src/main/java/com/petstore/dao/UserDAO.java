@@ -4,5 +4,5 @@ import com.petstore.model.bo.User;
 
 public interface UserDAO extends DAO<Integer, User> {
 
-	boolean getLoginDetails(String user, String password);
+	User getLoginDetails(String user, String password);
 }
