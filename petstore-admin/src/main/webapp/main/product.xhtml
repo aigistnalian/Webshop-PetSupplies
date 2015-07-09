@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:outputScript name="jquery/jquery.js" library="primefaces"></h:outputScript>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/templates/template.xhtml">
+		<ui:define name="content" >
+		
+			<h:form id="form1">
+				<p:growl id="messages" showDetail="true" />
+
+				<p:panel header="Product"  styleClass="content">
+					<center>
+						<p:panelGrid columns="2">
+							<h:outputLabel for="item" value="Name: " />
+							<p:inputText value="#{item.item}" id="item" />
+							
+							<h:outputLabel for="description" value="Description: " />
+							<p:inputText value="#{item.description}" id="description" />
+							
+							<h:outputLabel for="price" value="Price: " />
+							<p:inputText value="#{item.price}" id="price" />
+							
+							<p:outputLabel for="category" value="Category: " />
+							<p:selectOneMenu id="category" value="#{item.category}"
+								style="width:150px">
+								<p:ajax listener="#{item.onCategoryChange}" update="category" />
+								<f:selectItem itemLabel="Select Category" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{item.categories}" />
+							</p:selectOneMenu>
+
+							<f:facet name="footer">
+								<h:commandButton value="Add Category" action="#{item.addAction}" />
+							</f:facet>
+						</p:panelGrid>
+					</center>
+					<p:spacer height="30px;" />
+					<p:dataTable value="#{item.productList}" var="o" widgetVar="120"
+						style="width: 860px;" editable="true" scrollable="true"
+						scrollHeight="100" scrollRows="3">
+						<f:facet name="header">  
+                        Product List  
+                    </f:facet>
+						<p:ajax event="rowEdit" listener="#{item.onEdit}"
+							update=":form1:messages" />
+						<p:ajax event="rowEditCancel" listener="#{item.onCancel}"
+							update=":form1:messages" />
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Item Name" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{o.item}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{o.item}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{o.desc}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{o.desc}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Price" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{o.price}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{o.price}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Options">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

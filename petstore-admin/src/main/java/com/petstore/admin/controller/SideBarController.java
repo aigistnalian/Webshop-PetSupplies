@@ -36,7 +36,7 @@ public class SideBarController implements Serializable {
 	                      new FacesMessage(FacesMessage.SEVERITY_WARN,
 	                      "Invalid Link!",
 	                      "Please Login!"));
-			return "login";
+			return "landing";
 		}
 	}
 	
@@ -50,9 +50,9 @@ public class SideBarController implements Serializable {
 		HttpSession session = Util.getSession();
 		String user = (String) session.getAttribute("username");
 		if (user != null) {
-			return "/main/category";
+			return "/main/product";
 		} else {
-			return "login";
+			return "landing";
 		}
 	}
 

@@ -1,11 +1,14 @@
 package com.petstore.model.bo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -14,7 +17,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="PRODUCT")
-public class Product {
+public class Product implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4401489789015629512L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -29,6 +37,9 @@ public class Product {
 	
 	private String description;
 
+	@ManyToOne
+	@JoinColumn(name = "product_category_id")
+	private ProductCategory category;
 	/**
 	 * @return the id
 	 */
@@ -111,6 +122,20 @@ public class Product {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(ProductCategory category) {
+		this.category = category;
 	}
 	
 }

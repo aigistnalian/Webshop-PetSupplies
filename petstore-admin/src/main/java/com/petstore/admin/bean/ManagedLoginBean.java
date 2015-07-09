@@ -51,8 +51,6 @@ public class ManagedLoginBean implements Serializable {
                       Constants.TRY_AGAIN_MESSAGE));
    
               // invalidate session, and redirect to other pages
-              
-              //message = "Invalid Login. Please Try Again!";
               return "login";
           }
     }
