@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -29,42 +30,43 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 7798456708767544819L;
 
 	@Id
-	private int id;
-	
+	@Column(name="ID")
+	private int user_id;
+	@Column(name="FIRST_NAME")
 	private String first_name;
-	
+	@Column(name="LAST_NAME")
 	private String last_name;
-	
+	@Column(name="EMAIL_ID")
 	private String email_id;
-	
+	@Column(name="USERNAME")
 	private String username;
-	
+	@Column(name="PASSWORD")
 	private String password;
-	
+	@Column(name="ADDRESS")
 	private String address;
-	
+	@Column(name="CITY") 
 	private String city;
-	
+	@Column(name="PIN")
 	private String pin;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@JoinTable(name = "USER_ROLES", 
+	joinColumns = { @JoinColumn(name = "user_id") }, 
+	inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	List<Roles> roles;
 
 	/**
-	 * @return the id
+	 * @param user_id the user_id to set
 	 */
-	public int getId() {
-		return id;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
-
 	/**
-	 * @param id the id to set
+	 * @return the user_id
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public int getUser_id() {
+		return user_id;
 	}
-
 	/**
 	 * @return the first_name
 	 */

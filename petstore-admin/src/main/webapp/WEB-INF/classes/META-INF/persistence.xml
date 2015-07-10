@@ -11,5 +11,12 @@
 		<jta-data-source>jboss/datasources/ExampleDS</jta-data-source>
 			<class>com.petstore.model.bo.User</class>
 			<class>com.petstore.model.bo.Roles</class>
+			<class>com.petstore.model.bo.Product</class> 
+			<class>com.petstore.model.bo.ProductCategory</class> 
+			<properties>
+			  <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.transaction.flush_before_completion" value="true"/>
+			</properties>
 	</persistence-unit>
 </persistence>

@@ -22,7 +22,9 @@
 
 								<h:outputText value="Username" />
 
-								<p:inputText id="username" value="#{loginBean.uname}"></p:inputText>
+								<p:inputText id="username" value="#{loginBean.uname}" required="true">
+								<f:validateLength minimum="2" />
+								</p:inputText>
 
 								<p:spacer></p:spacer>
 
@@ -30,8 +32,10 @@
 
 								<h:outputText value="Password" />
 
-								<p:password id="password" value="#{loginBean.password}"
-									feedback="false"></p:password>
+								<p:password id="password" value="#{loginBean.password}" required="true"
+									feedback="false">
+									<f:validateLength minimum="2" />
+									</p:password>
 
 								<p:spacer />
 
@@ -40,7 +44,7 @@
 								<p:spacer></p:spacer>
 
 								<p:commandButton action="#{loginBean.loginProject}"
-									value="Login" update="loginForm" ajax="true"></p:commandButton>
+									value="Login" update="loginForm" ajax="true" icon="ui-icon-check"></p:commandButton>
 
 							</h:panelGrid>
 

@@ -3,6 +3,11 @@
  */
 package com.petstore.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+
 import com.petstore.dao.AbstractDAO;
 import com.petstore.dao.ProductDAO;
 import com.petstore.model.bo.Product;
@@ -14,18 +19,20 @@ import com.petstore.model.bo.Product;
 public class ProductDAOImpl extends AbstractDAO<Integer, Product> implements ProductDAO {
 
 	@Override
-	public Product fetchProductDetails() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> fetchProductDetails() {
+		Query query = entityManager.createQuery("select p from Product p");
+		@SuppressWarnings("unchecked")
+		List<Product> allProducts = query.getResultList();
+		return allProducts;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.petstore.dao.ProductDAO#addNewProduct(com.petstore.model.bo.Product)
 	 */
 	@Override
+	@Transactional
 	public void addNewProduct(Product product) {
-		// TODO Auto-generated method stub
-
+		entityManager.persist(product);
 	}
 
 	/* (non-Javadoc)
@@ -33,7 +40,6 @@ public class ProductDAOImpl extends AbstractDAO<Integer, Product> implements Pro
 	 */
 	@Override
 	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -41,8 +47,7 @@ public class ProductDAOImpl extends AbstractDAO<Integer, Product> implements Pro
 	 * @see com.petstore.dao.ProductDAO#deleteProduct(com.petstore.model.bo.Product)
 	 */
 	@Override
-	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
+	public void removeProduct(Product product) {
 
 	}
 

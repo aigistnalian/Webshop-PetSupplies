@@ -10,9 +10,71 @@
 </h:head>
 <h:body>
 	<ui:composition template="/WEB-INF/templates/template.xhtml">
-		<ui:define name="content" >
-		<div class="content">AD</div>
+		<ui:define name="content">
+				<h:form id="categoryForm">
+					<p:growl id="messages" showDetail="true" />
+
+					<p:panel header="Category" styleClass="content">
+						<center>
+							<p:panelGrid columns="2">
+								<h:outputLabel for="categoryName" value="Category Name: " />
+								<p:inputText value="#{categoryItem.categoryName}"
+									id="categoryName" />
+								<h:outputLabel for="subCategoryName" value="Description: " />
+								<p:inputText value="#{categoryItem.description}"
+									id="subCategoryName" />
+								<f:facet name="footer">
+									<h:commandButton value="Add Category"
+										action="#{categoryController.addNewCategory()}" />
+								</f:facet>
+							</p:panelGrid>
+						</center>
+
+						<p:spacer height="30px;" />
+						<p:dataTable value="#{categoryItem.catList}" var="c" widgetVar="120"
+							style="width: 660px;" editable="true" scrollable="true"
+							scrollHeight="100" scrollRows="3">
+							<f:facet name="header">  
+	                        Category List  
+	                   			 </f:facet>
+							<p:ajax event="rowEdit" listener="#{categoryItem.onEdit}"
+								update=":categoryForm:messages" />
+							<p:ajax event="rowEditCancel" listener="#{categoryItem.onCancel}"
+								update=":categoryForm:messages" />
+							<p:column>
+							<f:facet name="header">
+								<h:outputText value="Category Name" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{c.categoryName}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{c.categoryName}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{c.description}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{c.description}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Options">
+							<p:rowEditor />
+						</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
 		</ui:define>
 	</ui:composition>
-	</h:body>
+</h:body>
 </html>

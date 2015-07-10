@@ -3,6 +3,7 @@
  */
 package com.petstore.model.bo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,14 +17,15 @@ import javax.persistence.Table;
 public class LineItem {
 	
 	@Id
+	@Column(name="ID")
 	private int id;
-	
+	@Column(name="ORDER_ID")
 	private int order_id;
-	
+	@Column(name="PRODUCT_ID")
 	private int product_id;
-	
+	@Column(name="AMOUNT")
 	private int amount;
-	
+	@Column(name="NO_OF_PRODUCTS")
 	private int no_of_products;
 
 	/**

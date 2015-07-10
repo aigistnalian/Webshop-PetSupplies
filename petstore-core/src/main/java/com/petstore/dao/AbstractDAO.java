@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import com.petstore.dao.DAO;
 /**
@@ -14,7 +15,7 @@ import com.petstore.dao.DAO;
  */
 public abstract class AbstractDAO<K, E> implements DAO<K, E> {
 
-	@PersistenceContext
+	@PersistenceContext(name="admin",type=PersistenceContextType.EXTENDED)
 	protected EntityManager entityManager;
 	
 		protected Class<E> entityClass;

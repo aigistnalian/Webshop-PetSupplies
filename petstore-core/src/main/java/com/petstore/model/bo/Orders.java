@@ -5,6 +5,7 @@ package com.petstore.model.bo;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,19 +23,19 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
-	
+	@Column(name="ORDER_ID")
 	private String order_id;
-	
+	@Column(name="USER_ID")
 	private int user_id;
-	
+	@Column(name="STATUS")
 	private String status;
-	
+	@Column(name="ORDER_DATE")
 	private Date order_date;
-	
+	@Column(name="SHIPPING_ADDRESS") 
 	private String shipping_address;
-	
+	@Column(name="CITY")
 	private String city;
-	
+	@Column(name="PIN")
 	private String pin;
 
 	/**

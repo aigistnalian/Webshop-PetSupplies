@@ -3,6 +3,7 @@ package com.petstore.model.bo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,20 +26,21 @@ public class Product implements Serializable{
 	private static final long serialVersionUID = -4401489789015629512L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+	@Column(name="PRODUCT_CATEGORY_ID")
 	private int product_category_id;
-	
+	@Column(name="SKU")
 	private String sku;
+	@Column(name="NAME")
 	private String name;
-	
+	@Column(name="PRICE")
 	private BigDecimal price;
-	
+	@Column(name="DESCRIPTION")
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(name = "product_category_id")
+	@JoinColumn(name = "product_category_id",insertable=false,updatable=false)
 	private ProductCategory category;
 	/**
 	 * @return the id

@@ -28,20 +28,28 @@
 							<p:inputText value="#{item.price}" id="price" />
 							
 							<p:outputLabel for="category" value="Category: " />
-							<p:selectOneMenu id="category" value="#{item.category}"
-								style="width:150px">
+							<p:selectOneMenu id="category" value="#{item.category}" style="width:150px">
+								
 								<p:ajax listener="#{item.onCategoryChange}" update="category" />
+								
 								<f:selectItem itemLabel="Select Category" itemValue=""
 									noSelectionOption="true" />
-								<f:selectItems value="#{item.categories}" />
+								<f:selectItems  value="#{item.categories.entrySet()}"  var="entry" 
+   									  itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+   									  
 							</p:selectOneMenu>
 
 							<f:facet name="footer">
-								<h:commandButton value="Add Category" action="#{item.addAction}" />
+								<h:commandButton value="Add New Product" action="#{item.addAction}" />
 							</f:facet>
 						</p:panelGrid>
 					</center>
 					<p:spacer height="30px;" />
+					
+					<p:fileUpload fileUploadListener="#{fileUploadController.uploadFile}" mode="advanced" dragDropSupport="false"
+         				  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+ 					<p:spacer height="20px"/>
+					
 					<p:dataTable value="#{item.productList}" var="o" widgetVar="120"
 						style="width: 860px;" editable="true" scrollable="true"
 						scrollHeight="100" scrollRows="3">
@@ -93,6 +101,22 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
+
+						<p:column headerText="Brand">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{car.brand}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu value="#{car.brand}" style="width:100%">
+										<f:selectItems value="#{dtEditView.brands}" var="man"
+											itemLabel="#{man}" itemValue="#{man}" />
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
 						<p:column headerText="Options">
 							<p:rowEditor />
 						</p:column>
