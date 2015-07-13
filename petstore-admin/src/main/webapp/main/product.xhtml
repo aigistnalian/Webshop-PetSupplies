@@ -40,7 +40,7 @@
 							</p:selectOneMenu>
 
 							<f:facet name="footer">
-								<h:commandButton value="Add New Product" action="#{item.addAction}" />
+								<h:commandButton value="Add New Product" action="#{productController.addAction()}" />
 							</f:facet>
 						</p:panelGrid>
 					</center>
@@ -50,16 +50,16 @@
          				  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
  					<p:spacer height="20px"/>
 					
-					<p:dataTable value="#{item.productList}" var="o" widgetVar="120"
-						style="width: 860px;" editable="true" scrollable="true"
-						scrollHeight="100" scrollRows="3">
+					<p:dataTable value="#{item.productList}" var="o" widgetVar="120" id="productTable"
+						style="width: 860px;" editable="true" scrollable="true" 
+						scrollHeight="80" scrollRows="2">
 						<f:facet name="header">  
                         Product List  
                     </f:facet>
-						<p:ajax event="rowEdit" listener="#{item.onEdit}"
-							update=":form1:messages" />
-						<p:ajax event="rowEditCancel" listener="#{item.onCancel}"
-							update=":form1:messages" />
+						<p:ajax event="rowEdit" listener="#{item.onEdit}"  resetValues="true"
+							update=":form1:productTable" />
+						<p:ajax event="rowEditCancel" listener="#{productController.onCancel}" resetValues="true"
+							update=":form1:productTable" />
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Item Name" />
@@ -102,24 +102,13 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Brand">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{car.brand}" />
-								</f:facet>
-								<f:facet name="input">
-									<h:selectOneMenu value="#{car.brand}" style="width:100%">
-										<f:selectItems value="#{dtEditView.brands}" var="man"
-											itemLabel="#{man}" itemValue="#{man}" />
-									</h:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
-
-
 						<p:column headerText="Options">
-							<p:rowEditor />
+							<p:rowEditor  />
 						</p:column>
+						
+					<f:facet name="footer">
+      					 A
+   				 </f:facet>	
 					</p:dataTable>
 				</p:panel>
 			</h:form>

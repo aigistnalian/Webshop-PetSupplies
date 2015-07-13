@@ -15,6 +15,9 @@ public class ProductBean implements Serializable {
     private String item;
     private String desc;
     private Double price;
+	private int id;
+	private int pcId;
+	private String sku;
  
     public ProductBean(String item, String desc, Double price) {
         this.item = item;
@@ -50,5 +53,54 @@ public class ProductBean implements Serializable {
 	 */
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @return the pcId
+	 */
+	public int getPcId() {
+		return pcId;
+	}
+
+	/**
+	 * @param pcId the pcId to set
+	 */
+	public void setPcId(int pcId) {
+		this.pcId = pcId;
+	}
+
+	/**
+	 * @return the sku
+	 */
+	public String getSku() {
+		return sku;
+	}
+
+	/**
+	 * @param sku the sku to set
+	 */
+	public void setSku(String sku) {
+		this.sku = sku;
 	}    
 }

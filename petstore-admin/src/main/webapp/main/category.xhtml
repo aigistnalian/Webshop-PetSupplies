@@ -37,9 +37,9 @@
 							<f:facet name="header">  
 	                        Category List  
 	                   			 </f:facet>
-							<p:ajax event="rowEdit" listener="#{categoryItem.onEdit}"
+							<p:ajax event="rowEdit" listener="#{categoryController.onEdit}"
 								update=":categoryForm:messages" />
-							<p:ajax event="rowEditCancel" listener="#{categoryItem.onCancel}"
+							<p:ajax event="rowEditCancel" listener="#{categoryController.onCancel}"
 								update=":categoryForm:messages" />
 							<p:column>
 							<f:facet name="header">

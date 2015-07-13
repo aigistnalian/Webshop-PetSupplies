@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import org.primefaces.event.RowEditEvent;
 
 import com.petstore.model.bo.ProductCategory;
 import com.petstore.service.CategoryService;
@@ -25,11 +21,8 @@ import com.petstore.service.CategoryService;
 public class CategoryItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	private String categoryName;
 	private String description;
-
-	CategoryBean categoryBean;
 
 	@Inject
 	CategoryService categoryService;
@@ -63,37 +56,6 @@ public class CategoryItem implements Serializable {
 		return catList;
 	}
 
-	
-
-	/**
-	 * @param event
-	 */
-	public void onEdit(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Item Edited",
-				((CategoryBean) event.getObject()).getCategoryName());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	/**
-	 * @param event
-	 */
-	public void onCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Item Cancelled");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-		
-		
-		CategoryBean categoryBean = (CategoryBean) event.getObject();
-		ProductCategory pc = new ProductCategory();
-		pc.setId(categoryBean.getId());
-		pc.setName(categoryBean.getCategoryName());
-		pc.setDescription(categoryBean.getDescription());
-		pc.setProducts(categoryBean.getProducts());
-		
-		categoryService.removeSelectedCategory(pc);
-		
-		catList.remove((CategoryBean) event.getObject());
-	}
-
 	/**
 	 * @return the categoryName
 	 */
@@ -114,20 +76,6 @@ public class CategoryItem implements Serializable {
 	}
 	public String getDescription() {
 		return description;
-	}
-	/**
-	 * @return the categoryBean
-	 */
-	public CategoryBean getCategoryBean() {
-		return categoryBean;
-	}
-
-	/**
-	 * @param categoryBean
-	 *            the categoryBean to set
-	 */
-	public void setCategoryBean(CategoryBean categoryBean) {
-		this.categoryBean = categoryBean;
 	}
 
 	/**

@@ -40,7 +40,7 @@ public class ProductDAOImpl extends AbstractDAO<Integer, Product> implements Pro
 	 */
 	@Override
 	public void updateProduct(Product product) {
-
+		entityManager.merge(product);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +48,8 @@ public class ProductDAOImpl extends AbstractDAO<Integer, Product> implements Pro
 	 */
 	@Override
 	public void removeProduct(Product product) {
-
+		Query query = entityManager.createQuery("delete from Product where id = " + product.getId() + "");
+		query.executeUpdate();
 	}
 
 }

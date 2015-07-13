@@ -1,9 +1,15 @@
 package com.petstore.admin.controller;
 
+import java.io.Serializable;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.primefaces.event.RowEditEvent;
 
 import com.petstore.admin.bean.CategoryBean;
 import com.petstore.admin.bean.CategoryItem;
@@ -17,7 +23,12 @@ import com.petstore.service.CategoryService;
  */
 @ManagedBean(name="categoryController")
 @SessionScoped
-public class CategoryController {
+public class CategoryController implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -193807208415040894L;
 
 	@Inject
 	CategoryService categoryService;
@@ -43,6 +54,50 @@ public class CategoryController {
 		categoryItem.setDescription(Constants.EMPTY);
 		return null;
 	}
+	
+	
+	/**
+	 * @param event
+	 */
+	public void onEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Edited",
+				((CategoryBean) event.getObject()).getCategoryName());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		ProductCategory pc = mapBeanToBo(event);
+		categoryService.updateSelectedCategory(pc);
+	}
+
+	/**
+	 * @param event
+	 */
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Item Cancelled");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+		ProductCategory pc = mapBeanToBo(event);
+		
+		categoryService.removeSelectedCategory(pc);
+		
+		categoryItem.getCatList().remove((CategoryBean) event.getObject());
+	}
+
+
+	/**
+	 * @param event
+	 * @return
+	 */
+	private ProductCategory mapBeanToBo(RowEditEvent event) {
+		CategoryBean categoryBean = (CategoryBean) event.getObject();
+		ProductCategory pc = new ProductCategory();
+		pc.setId(categoryBean.getId());
+		pc.setName(categoryBean.getCategoryName());
+		pc.setDescription(categoryBean.getDescription());
+		pc.setProducts(categoryBean.getProducts());
+		return pc;
+	}
+	
+	
 
 	/**
 	 * @return the categoryItem
@@ -56,5 +111,13 @@ public class CategoryController {
 	 */
 	public void setCategoryItem(CategoryItem categoryItem) {
 		this.categoryItem = categoryItem;
+	}
+
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

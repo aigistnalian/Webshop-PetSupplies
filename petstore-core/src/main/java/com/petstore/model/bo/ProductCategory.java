@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 /**
  * @author analian
  *
@@ -34,6 +37,7 @@ public class ProductCategory implements Serializable{
 	private String description;
 	
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy="category",fetch=FetchType.EAGER)
+	 @OnDelete(action = OnDeleteAction.CASCADE)
 	  private Set<Product> products;
 	/**
 	 * @return the id

@@ -58,15 +58,20 @@ public class CategoryDAOImpl extends AbstractDAO<Integer, ProductCategory>
 	@Override
 	@Transactional
 	public void removeCategory(ProductCategory category) {
-		Set<Product> products =  category.getProducts();
-		if(products!=null){
-			for (Product product : products) {
-				entityManager.remove(entityManager.contains(product) ? product
-					: entityManager.merge(product));
+		Query query =null;
+		try {
+			Set<Product> products =  category.getProducts();
+			if(products!=null){
+				for (Product product : products) {
+					query  = entityManager.createQuery("delete from Product where id = " + product.getId() + "");
+					query.executeUpdate();
+				}
 			}
+			query = entityManager.createQuery("delete from ProductCategory where id = " + category.getId() + "");
+			query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		entityManager.remove(entityManager.contains(category) ? category
-				: entityManager.merge(category));
 	}
 
 	/*

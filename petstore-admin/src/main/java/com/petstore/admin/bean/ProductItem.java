@@ -2,8 +2,6 @@ package com.petstore.admin.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +16,6 @@ import javax.inject.Inject;
 
 import org.primefaces.event.RowEditEvent;
 
-import com.petstore.constants.Constants;
 import com.petstore.model.bo.Product;
 import com.petstore.model.bo.ProductCategory;
 import com.petstore.service.CategoryService;
@@ -32,10 +29,8 @@ public class ProductItem implements Serializable {
 	   private String item;
 	   private String description;
 	   private Double price;
-	   
-	   ProductBean product;
-	   
 	   private String category; 
+	   
 	   private Map<Integer,String> categories;
 	   
 	   @Inject
@@ -47,19 +42,47 @@ public class ProductItem implements Serializable {
 	   
 	   @PostConstruct
 	   public void init() {
-		  List<Product> productsList = productService.fetchAllProductDetails();
-		  System.out.println(productsList);
-		  productList.clear();
-		  for (Product product : productsList) {
-			ProductBean pBean = new ProductBean(product.getName(), product.getDescription(), product.getPrice().doubleValue());
-			productList.add(pBean);
-		}
+		  refreshProductList();
+		 
 		  categories = new HashMap<Integer, String>();
 		  List<ProductCategory> categoriesList = categoryService.findAllCategories();
 		  for (ProductCategory productCategory : categoriesList) {
 			  categories.put(productCategory.getId(),productCategory.getName());
 		}
 	   }
+
+	public void refreshProductList() {
+		List<Product> productsList = productService.fetchAllProductDetails();
+		  System.out.println(productsList);
+		  
+		  productList.clear();
+		  
+		  for (Product product : productsList) {
+			ProductBean pBean = new ProductBean(product.getName(), product.getDescription(), product.getPrice().doubleValue());
+			pBean.setId(product.getId());
+			pBean.setPcId(product.getProduct_category_id());
+			pBean.setSku(product.getSku());
+			productList.add(pBean);
+		}
+	}
+	
+	   /**
+		 * @param event
+		 */
+		public void onEdit(RowEditEvent event) {  
+		       FacesMessage msg = new FacesMessage("Item Edited",((ProductBean) event.getObject()).getItem());  
+		       ProductBean pBean = (ProductBean) event.getObject();
+				 Product product = new Product();
+				 product.setName(pBean.getItem());
+				 product.setDescription(pBean.getDesc());
+				 product.setPrice(BigDecimal.valueOf(pBean.getPrice()));
+				 product.setId(pBean.getId());
+				 product.setSku(pBean.getSku());
+				 product.setProduct_category_id(pBean.getPcId());
+		       productService.updateProduct(product);
+		       FacesContext.getCurrentInstance().addMessage(null, msg);  
+		   }  
+		      
 	   
 	   public void onCategoryChange(){
 		   System.out.println(category);
@@ -84,40 +107,13 @@ public class ProductItem implements Serializable {
 	   private static final ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
 	
 	   public ArrayList<ProductBean> getProductList() {
+		   if(productList==null){
+			   refreshProductList();
+		   }
 	       return productList;
 	   }
 	
-	   public String addAction() {
-	       ProductBean productItem = new ProductBean(this.item, this.description, this.price);
-	       Product product = new Product();
-	       product.setProduct_category_id(Integer.valueOf(category));
-	       product.setDescription(this.description);
-	       product.setName(this.item);
-	       product.setPrice(BigDecimal.valueOf(this.price));
-	       try {
-			product.setSku(new String(SecureRandom.getInstance("SHA1PRNG").generateSeed(6)));
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-	     
-	       productService.addNewProduct(product);
-	       productList.add(productItem);
-	       item = Constants.EMPTY;
-	       price = 0.0;
-	       description = Constants.EMPTY;
-	       return null;
-	   }
-	   public void onEdit(RowEditEvent event) {  
-	       FacesMessage msg = new FacesMessage("Item Edited",((ProductBean) event.getObject()).getItem());  
-	       FacesContext.getCurrentInstance().addMessage(null, msg);  
-	   }  
-	      
-	   public void onCancel(RowEditEvent event) {  
-	       FacesMessage msg = new FacesMessage("Item Cancelled");   
-	       FacesContext.getCurrentInstance().addMessage(null, msg); 
-	       productList.remove((ProductBean) event.getObject());
-	   }
-	
+	 
 	/**
 	 * @return the category
 	 */
@@ -160,18 +156,4 @@ public class ProductItem implements Serializable {
 		this.description = description;
 	}
 	
-	/**
-	 * @return the product
-	 */
-	public ProductBean getProduct() {
-		return product;
-	}
-	
-	/**
-	 * @param product the product to set
-	 */
-	public void setProduct(ProductBean product) {
-		this.product = product;
-	}  
-	   
-	}
+}

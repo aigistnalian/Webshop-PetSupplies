@@ -35,4 +35,20 @@ public class ProductServiceImpl implements ProductService {
 		productDAO.addNewProduct(product);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.petstore.service.ProductService#updateProduct(com.petstore.model.bo.Product)
+	 */
+	@Override
+	public void updateProduct(Product product) {
+		productDAO.updateProduct(product);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.petstore.service.ProductService#removeSelectedProduct(com.petstore.model.bo.Product)
+	 */
+	@Override
+	public void removeSelectedProduct(Product product) {
+		productDAO.removeProduct(product);
+	}
+
 }
