@@ -11,6 +11,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import com.petstore.constants.Constants;
 import com.petstore.util.Util;
 
 /**
@@ -20,39 +23,58 @@ import com.petstore.util.Util;
 @ManagedBean(name = "sidebar")
 @SessionScoped
 public class SideBarController implements Serializable {
+	final static Logger log = Logger.getLogger(SideBarController.class);
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8969017736390777114L;
 
+	/**
+	 * @return
+	 */
 	public String sendToCategoryPage() {
 		HttpSession session = Util.getSession();
-		String user = (String) session.getAttribute("username");
+		String user = (String) session.getAttribute(Constants.USERNAME);
 		if (user != null) {
-			return "/main/category";
+			return Constants.CATEGORY_PAGE_STRING;
 		} else {
-			   FacesContext.getCurrentInstance().addMessage(
-	                      null,
-	                      new FacesMessage(FacesMessage.SEVERITY_WARN,
-	                      "Invalid Link!",
-	                      "Please Login!"));
-			return "landing";
+			   showInvalidLinkClickedMessage();
+			return Constants.LANDING_PAGE_STRING;
 		}
 	}
+
+	/**
+	 * 
+	 */
+	private void showInvalidLinkClickedMessage() {
+		FacesContext.getCurrentInstance().addMessage(
+		              null,
+		              new FacesMessage(FacesMessage.SEVERITY_WARN,
+		              Constants.INVALID_LINK_MESSAGE,
+		             Constants.PLEASE_LOGIN_MESSAGE));
+	}
 	
-	 public String logout() {
+	 /**
+	 * @return
+	 */
+	public String logout() {
+			log.debug("LOGGING OUT!");
 	        HttpSession session = Util.getSession();
 	        session.invalidate();
-	         return "/login?faces-redirect=true" ;
+	         return Constants.LOGIN_REDIRECT_STRING;
 	     }
 
+	/**
+	 * @return
+	 */
 	public String sendToProductPage() {
 		HttpSession session = Util.getSession();
-		String user = (String) session.getAttribute("username");
+		String user = (String) session.getAttribute(Constants.USERNAME);
 		if (user != null) {
-			return "/main/product";
+			return Constants.PRODUCT_PAGE_STRING;
 		} else {
-			return "landing";
+			showInvalidLinkClickedMessage();
+			return Constants.LANDING_PAGE_STRING;
 		}
 	}
 

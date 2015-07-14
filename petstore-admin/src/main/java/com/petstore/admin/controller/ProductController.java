@@ -12,6 +12,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 
@@ -28,7 +29,7 @@ import com.petstore.service.ProductService;
 @ManagedBean(name = "productController")
 @RequestScoped
 public class ProductController implements Serializable {
-
+	final static Logger log = Logger.getLogger(ProductController.class);
 	/**
 	 * 
 	 */
@@ -44,6 +45,7 @@ public class ProductController implements Serializable {
 	 * @return
 	 */
 	public String addAction() {
+		log.info("Inside Product Controller --> Add Action");
 		ProductBean productItem = new ProductBean(item.getItem(),
 				item.getDescription(), item.getPrice());
 
@@ -62,6 +64,7 @@ public class ProductController implements Serializable {
 
 		productService.addNewProduct(product);
 		item.getProductList().add(productItem);
+		log.info("Added new product");
 		item.setItem(Constants.EMPTY);
 		item.setPrice(0.0);
 		item.setDescription(Constants.EMPTY);
@@ -72,6 +75,7 @@ public class ProductController implements Serializable {
 	 * @param event
 	 */
 	public void onEdit(RowEditEvent editEvent) {
+		log.debug("Edit event fired for Product -->" + editEvent);
 		FacesMessage msg = new FacesMessage("Item Edited", "FS");
 		Product product = mapBeanToBo(editEvent);
 		productService.updateProduct(product);
@@ -82,6 +86,7 @@ public class ProductController implements Serializable {
 	 * @param event
 	 */
 	public void onCancel(RowEditEvent cancelEvent) {
+		log.info("Delete event fired of Product " );
 		FacesMessage msg = new FacesMessage("Item Removed");
 		Product product = mapBeanToBo(cancelEvent);
 		productService.removeSelectedProduct(product);
@@ -97,9 +102,8 @@ public class ProductController implements Serializable {
 	 */
 	private Product mapBeanToBo(RowEditEvent event) {
 		DataTable dataTable = (DataTable) event.getSource();
-
+		log.debug("Datatable source --->" + dataTable);
 		ProductBean pBean = (ProductBean) dataTable.getRowData();
-		
 		Product product = new Product();
 		product.setName(pBean.getItem());
 		product.setDescription(pBean.getDesc());

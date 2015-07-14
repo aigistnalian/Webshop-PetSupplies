@@ -41,7 +41,7 @@ public class ManagedLoginBean implements Serializable {
               // get Http Session and store username
               HttpSession session = Util.getSession();
               session.setAttribute(Constants.USERNAME, uname);
-              return "landing";
+              return Constants.LANDING_PAGE_STRING;
           } else {
    
               FacesContext.getCurrentInstance().addMessage(
@@ -51,7 +51,7 @@ public class ManagedLoginBean implements Serializable {
                       Constants.TRY_AGAIN_MESSAGE));
    
               // invalidate session, and redirect to other pages
-              return "login";
+              return Constants.LOGIN_PAGE_STRING;
           }
     }
 

@@ -3,6 +3,8 @@ package com.petstore.service.impl;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import com.petstore.constants.Constants;
 import com.petstore.dao.UserDAO;
 import com.petstore.model.bo.Roles;
@@ -16,6 +18,8 @@ import com.petstore.service.LoginService;
 @Stateless
 public class LoginServiceImpl implements LoginService{
 
+	final static Logger log = Logger.getLogger(LoginServiceImpl.class);
+	
 	@Inject
 	UserDAO userDAO;
 	
@@ -23,6 +27,7 @@ public class LoginServiceImpl implements LoginService{
 	public boolean validateAdminUserLogin(String userId, String password) {
 		boolean isUserValid = false; 
 		User user = userDAO.getLoginDetails(userId, password);
+		log.debug("Getting the user for -->" + userId);
 		if(user!=null){
 			if(user.getRoles()!=null && !user.getRoles().isEmpty()){
 				for (Roles role : user.getRoles()) {
@@ -33,6 +38,7 @@ public class LoginServiceImpl implements LoginService{
 				}
 			}
 		}
+		log.debug("returning after login -->"+ isUserValid);
 		return isUserValid;
 	}
 }

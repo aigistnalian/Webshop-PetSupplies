@@ -32,6 +32,9 @@ public class CategoryItem implements Serializable {
 		refreshCategories();
 	}
 
+	/**
+	 * 
+	 */
 	private void refreshCategories() {
 		List<ProductCategory> categoriesList = categoryService.findAllCategories();
 		catList.clear();

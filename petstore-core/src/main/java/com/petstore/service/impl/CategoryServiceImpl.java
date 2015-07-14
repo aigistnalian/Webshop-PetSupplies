@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import com.petstore.dao.CategoryDAO;
 import com.petstore.model.bo.ProductCategory;
 import com.petstore.service.CategoryService;
@@ -19,6 +21,8 @@ import com.petstore.service.CategoryService;
 @Stateless
 public class CategoryServiceImpl implements CategoryService {
 
+	final static Logger log = Logger.getLogger(CategoryServiceImpl.class);
+	
 	@Inject
 	CategoryDAO categoryDAO;
 	
@@ -27,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public void addNewCategory(ProductCategory category) {
+		log.info("Adding New Category -->" + category.getName());
 		categoryDAO.addNewCategory(category);
 	}
 
@@ -35,6 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public List<ProductCategory> findAllCategories() {
+		log.info("fetching all categories");
 		return categoryDAO.fetchAllCategories();
 	}
 
@@ -43,6 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public void removeSelectedCategory(ProductCategory category) {
+		log.info("Removing Category -->" + category.getName());
 		categoryDAO.removeCategory(category);
 	}
 
@@ -51,6 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public void updateSelectedCategory(ProductCategory category) {
+		log.info("Updating the Category -->" + category.getName());
 		categoryDAO.updateCategory(category);
 	}
 
