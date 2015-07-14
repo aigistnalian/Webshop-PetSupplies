@@ -1,20 +1,15 @@
 package com.petstore.admin.bean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-
-import org.primefaces.event.RowEditEvent;
 
 import com.petstore.model.bo.Product;
 import com.petstore.model.bo.ProductCategory;
@@ -22,7 +17,7 @@ import com.petstore.service.CategoryService;
 import com.petstore.service.ProductService;
 	
 @ManagedBean(name = "item")
-@SessionScoped
+@RequestScoped
 public class ProductItem implements Serializable {
 
 	   private static final long serialVersionUID = 1L;
@@ -43,7 +38,6 @@ public class ProductItem implements Serializable {
 	   @PostConstruct
 	   public void init() {
 		  refreshProductList();
-		 
 		  categories = new HashMap<Integer, String>();
 		  List<ProductCategory> categoriesList = categoryService.findAllCategories();
 		  for (ProductCategory productCategory : categoriesList) {
@@ -66,24 +60,6 @@ public class ProductItem implements Serializable {
 		}
 	}
 	
-	   /**
-		 * @param event
-		 */
-		public void onEdit(RowEditEvent event) {  
-		       FacesMessage msg = new FacesMessage("Item Edited",((ProductBean) event.getObject()).getItem());  
-		       ProductBean pBean = (ProductBean) event.getObject();
-				 Product product = new Product();
-				 product.setName(pBean.getItem());
-				 product.setDescription(pBean.getDesc());
-				 product.setPrice(BigDecimal.valueOf(pBean.getPrice()));
-				 product.setId(pBean.getId());
-				 product.setSku(pBean.getSku());
-				 product.setProduct_category_id(pBean.getPcId());
-		       productService.updateProduct(product);
-		       FacesContext.getCurrentInstance().addMessage(null, msg);  
-		   }  
-		      
-	   
 	   public void onCategoryChange(){
 		   System.out.println(category);
 	   }
@@ -104,7 +80,7 @@ public class ProductItem implements Serializable {
 	       this.price = price;
 	   }
 	
-	   private static final ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
+	   private  ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
 	
 	   public ArrayList<ProductBean> getProductList() {
 		   if(productList==null){
@@ -132,6 +108,11 @@ public class ProductItem implements Serializable {
 	 * @return the categories
 	 */
 	public Map<Integer, String> getCategories() {
+		categories = new HashMap<Integer, String>();
+		  List<ProductCategory> categoriesList = categoryService.findAllCategories();
+		  for (ProductCategory productCategory : categoriesList) {
+			  categories.put(productCategory.getId(),productCategory.getName());
+		}
 		return categories;
 	}
 	

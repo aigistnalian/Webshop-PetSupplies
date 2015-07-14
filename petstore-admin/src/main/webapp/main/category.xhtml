@@ -31,16 +31,14 @@
 						</center>
 
 						<p:spacer height="30px;" />
-						<p:dataTable value="#{categoryItem.catList}" var="c" widgetVar="120"
-							style="width: 660px;" editable="true" scrollable="true"
+						<p:dataTable value="#{categoryItem.catList}" var="c" id="categoryTable" rowKey="#{c.id}" 
+							style="width: 660px;" editable="true" scrollable="true" editMode="row"
 							scrollHeight="100" scrollRows="3">
+							<p:ajax event="rowEdit" listener="#{categoryController.onEdit}" process="@this" update=":categoryForm:categoryTable"/>
+							<p:ajax event="rowEditCancel" listener="#{categoryController.onCancel}" process="@this" update=":categoryForm:categoryTable"/>
 							<f:facet name="header">  
 	                        Category List  
 	                   			 </f:facet>
-							<p:ajax event="rowEdit" listener="#{categoryController.onEdit}"
-								update=":categoryForm:messages" />
-							<p:ajax event="rowEditCancel" listener="#{categoryController.onCancel}"
-								update=":categoryForm:messages" />
 							<p:column>
 							<f:facet name="header">
 								<h:outputText value="Category Name" />
@@ -68,9 +66,10 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-						<p:column headerText="Options">
-							<p:rowEditor />
-						</p:column>
+						
+	                    <p:column headerText="Options">
+						<p:rowEditor/>
+	                </p:column>
 						</p:dataTable>
 					</p:panel>
 				</h:form>

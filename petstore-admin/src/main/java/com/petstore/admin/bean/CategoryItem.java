@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 import com.petstore.model.bo.ProductCategory;
@@ -17,7 +17,7 @@ import com.petstore.service.CategoryService;
  *
  */
 @ManagedBean(name = "categoryItem")
-@SessionScoped
+@RequestScoped
 public class CategoryItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +29,10 @@ public class CategoryItem implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		refreshCategories();
+	}
+
+	private void refreshCategories() {
 		List<ProductCategory> categoriesList = categoryService.findAllCategories();
 		catList.clear();
 		System.out.println(categoriesList);
@@ -47,7 +51,7 @@ public class CategoryItem implements Serializable {
 	/**
 	 * 
 	 */
-	private static final ArrayList<CategoryBean> catList = new ArrayList<CategoryBean>();
+	private  ArrayList<CategoryBean> catList = new ArrayList<CategoryBean>();
 
 	/**
 	 * @return

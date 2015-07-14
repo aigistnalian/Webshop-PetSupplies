@@ -50,16 +50,14 @@
          				  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
  					<p:spacer height="20px"/>
 					
-					<p:dataTable value="#{item.productList}" var="o" widgetVar="120" id="productTable"
+					<p:dataTable value="#{item.productList}" var="o"  id="productTable" editMode="row"
 						style="width: 860px;" editable="true" scrollable="true" 
 						scrollHeight="80" scrollRows="2">
 						<f:facet name="header">  
                         Product List  
                     </f:facet>
-						<p:ajax event="rowEdit" listener="#{item.onEdit}"  resetValues="true"
-							update=":form1:productTable" />
-						<p:ajax event="rowEditCancel" listener="#{productController.onCancel}" resetValues="true"
-							update=":form1:productTable" />
+						<p:ajax event="rowEdit" listener="#{productController.onEdit}"  update=":form1:productTable"  />
+						<p:ajax event="rowEditCancel" listener="#{productController.onCancel}"  update=":form1:productTable"  />
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Item Name" />
@@ -103,12 +101,8 @@
 						</p:column>
 
 						<p:column headerText="Options">
-							<p:rowEditor  />
-						</p:column>
-						
-					<f:facet name="footer">
-      					 A
-   				 </f:facet>	
+						<p:rowEditor/>
+	                </p:column>
 					</p:dataTable>
 				</p:panel>
 			</h:form>

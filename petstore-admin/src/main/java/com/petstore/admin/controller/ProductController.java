@@ -8,10 +8,11 @@ import java.security.SecureRandom;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 
 import com.petstore.admin.bean.ProductBean;
@@ -24,9 +25,9 @@ import com.petstore.service.ProductService;
  * @author analian
  *
  */
-@ManagedBean(name="productController")
-@SessionScoped
-public class ProductController implements Serializable{
+@ManagedBean(name = "productController")
+@RequestScoped
+public class ProductController implements Serializable {
 
 	/**
 	 * 
@@ -35,73 +36,80 @@ public class ProductController implements Serializable{
 
 	@Inject
 	ProductService productService;
-	
-	@ManagedProperty(value="#{item}")
+
+	@ManagedProperty(value = "#{item}")
 	private ProductItem item;
-	
-	
+
 	/**
 	 * @return
 	 */
 	public String addAction() {
-	       ProductBean productItem = new ProductBean(item.getItem(), item.getDescription(), item.getPrice());
-	     
-	       Product product = new Product();
-	       product.setProduct_category_id(Integer.valueOf(item.getCategory()));
-	       product.setDescription(item.getDescription());
-	       product.setName(item.getItem());
-	       product.setPrice(BigDecimal.valueOf(item.getPrice()));
-	      
-	       try { // For Fun --> Randomly generated Stock keeping unit value
-			product.setSku(new String(SecureRandom.getInstance("SHA1PRNG").generateSeed(6)));
+		ProductBean productItem = new ProductBean(item.getItem(),
+				item.getDescription(), item.getPrice());
+
+		Product product = new Product();
+		product.setProduct_category_id(Integer.valueOf(item.getCategory()));
+		product.setDescription(item.getDescription());
+		product.setName(item.getItem());
+		product.setPrice(BigDecimal.valueOf(item.getPrice()));
+
+		try { // For Fun --> Randomly generated Stock keeping unit value
+			product.setSku(new String(SecureRandom.getInstance("SHA1PRNG")
+					.generateSeed(6)));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-	     
-	       productService.addNewProduct(product);
-	       item.getProductList().add(productItem);
-	       item.setItem(Constants.EMPTY);
-	       item.setPrice(0.0);
-	       item.setDescription(Constants.EMPTY);
-	       return null;
-	   }
-	  
-	  
-	
+
+		productService.addNewProduct(product);
+		item.getProductList().add(productItem);
+		item.setItem(Constants.EMPTY);
+		item.setPrice(0.0);
+		item.setDescription(Constants.EMPTY);
+		return null;
+	}
+
 	/**
 	 * @param event
 	 */
-	public void onCancel(RowEditEvent event) {  
-	       FacesMessage msg = new FacesMessage("Item Removed");   
-	       
-	       Product product = mapBeanToBo(event);
-	       
-	       productService.removeSelectedProduct(product);
-	       
-	       item.refreshProductList();
-	       
-	       FacesContext.getCurrentInstance().addMessage(null, msg); 
-	   }
+	public void onEdit(RowEditEvent editEvent) {
+		FacesMessage msg = new FacesMessage("Item Edited", "FS");
+		Product product = mapBeanToBo(editEvent);
+		productService.updateProduct(product);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	/**
+	 * @param event
+	 */
+	public void onCancel(RowEditEvent cancelEvent) {
+		FacesMessage msg = new FacesMessage("Item Removed");
+		Product product = mapBeanToBo(cancelEvent);
+		productService.removeSelectedProduct(product);
+
+		item.refreshProductList();
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
 	/**
 	 * @param event
 	 * @return
 	 */
 	private Product mapBeanToBo(RowEditEvent event) {
-			
-		   ProductBean pBean = (ProductBean) event.getObject();
-			 Product product = new Product();
-			 product.setName(pBean.getItem());
-			 product.setDescription(pBean.getDesc());
-			 product.setPrice(BigDecimal.valueOf(pBean.getPrice()));
-			 product.setId(pBean.getId());
-			 product.setSku(pBean.getSku());
-			 product.setProduct_category_id(pBean.getPcId());
-			 
-			return product;
-		}
-		
+		DataTable dataTable = (DataTable) event.getSource();
 
+		ProductBean pBean = (ProductBean) dataTable.getRowData();
+		
+		Product product = new Product();
+		product.setName(pBean.getItem());
+		product.setDescription(pBean.getDesc());
+		product.setPrice(BigDecimal.valueOf(pBean.getPrice()));
+		product.setId(pBean.getId());
+		product.setSku(pBean.getSku());
+		product.setProduct_category_id(pBean.getPcId());
+
+		return product;
+	}
 
 	/**
 	 * @return the item
@@ -110,9 +118,9 @@ public class ProductController implements Serializable{
 		return item;
 	}
 
-
 	/**
-	 * @param item the item to set
+	 * @param item
+	 *            the item to set
 	 */
 	public void setItem(ProductItem item) {
 		this.item = item;

@@ -5,10 +5,11 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 
 import com.petstore.admin.bean.CategoryBean;
@@ -22,7 +23,7 @@ import com.petstore.service.CategoryService;
  *
  */
 @ManagedBean(name="categoryController")
-@SessionScoped
+@RequestScoped
 public class CategoryController implements Serializable {
 
 	/**
@@ -63,7 +64,6 @@ public class CategoryController implements Serializable {
 		FacesMessage msg = new FacesMessage("Item Edited",
 				((CategoryBean) event.getObject()).getCategoryName());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-
 		ProductCategory pc = mapBeanToBo(event);
 		categoryService.updateSelectedCategory(pc);
 	}
@@ -71,15 +71,15 @@ public class CategoryController implements Serializable {
 	/**
 	 * @param event
 	 */
-	public void onCancel(RowEditEvent event) {
+	public void onCancel(RowEditEvent cancelEvent) {
 		FacesMessage msg = new FacesMessage("Item Cancelled");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		
-		ProductCategory pc = mapBeanToBo(event);
-		
+		CategoryBean categoryBean = (CategoryBean)((DataTable)cancelEvent.getSource()).getRowData();
+		ProductCategory pc = mapBeanToBo(cancelEvent);
 		categoryService.removeSelectedCategory(pc);
 		
-		categoryItem.getCatList().remove((CategoryBean) event.getObject());
+		categoryItem.getCatList().remove(categoryBean);
+		
 	}
 
 
@@ -88,7 +88,9 @@ public class CategoryController implements Serializable {
 	 * @return
 	 */
 	private ProductCategory mapBeanToBo(RowEditEvent event) {
-		CategoryBean categoryBean = (CategoryBean) event.getObject();
+		DataTable dataTable = (DataTable)event.getSource();
+		System.out.println(dataTable.getRowData());
+		CategoryBean categoryBean = (CategoryBean)dataTable.getRowData();
 		ProductCategory pc = new ProductCategory();
 		pc.setId(categoryBean.getId());
 		pc.setName(categoryBean.getCategoryName());
