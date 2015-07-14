@@ -10,54 +10,62 @@
 </h:head>
 <h:body>
 	<ui:composition template="/WEB-INF/templates/template.xhtml">
-		<ui:define name="content" >
-		
-			<h:form id="form1">
-				<p:growl id="messages" showDetail="true" />
+		<ui:define name="content">
 
-				<p:panel header="Product"  styleClass="content">
+			<h:form id="form1">
+				<p:growl id="messages" showDetail="false" />
+				
+				<p:panel header="Product" styleClass="content">
 					<center>
 						<p:panelGrid columns="2">
 							<h:outputLabel for="item" value="Name: " />
-							<p:inputText value="#{item.item}" id="item" />
-							
+							<p:inputText value="#{item.item}" id="item" required="true" label="Name" />
+
 							<h:outputLabel for="description" value="Description: " />
-							<p:inputText value="#{item.description}" id="description" />
-							
+							<p:inputText value="#{item.description}" id="description"  required="true" label="Description"/>
+
 							<h:outputLabel for="price" value="Price: " />
-							<p:inputText value="#{item.price}" id="price" />
-							
+							<p:inputText value="#{item.price}" id="price" required="true"  label="Price"/>
+
 							<p:outputLabel for="category" value="Category: " />
-							<p:selectOneMenu id="category" value="#{item.category}" style="width:150px">
-								
+							<p:selectOneMenu id="category" value="#{item.category}" required="true"
+								style="width:150px">
+
 								<p:ajax listener="#{item.onCategoryChange}" update="category" />
-								
+
 								<f:selectItem itemLabel="Select Category" itemValue=""
 									noSelectionOption="true" />
-								<f:selectItems  value="#{item.categories.entrySet()}"  var="entry" 
-   									  itemValue="#{entry.key}" itemLabel="#{entry.value}" />
-   									  
+								<f:selectItems value="#{item.categories.entrySet()}" var="entry"
+									itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+
 							</p:selectOneMenu>
 
 							<f:facet name="footer">
-								<h:commandButton value="Add New Product" action="#{productController.addAction()}" />
+								<h:commandButton value="Add New Product"
+									action="#{productController.addAction()}" />
 							</f:facet>
 						</p:panelGrid>
 					</center>
 					<p:spacer height="30px;" />
-					
-					<p:fileUpload fileUploadListener="#{fileUploadController.uploadFile}" mode="advanced" dragDropSupport="false"
-         				  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
- 					<p:spacer height="20px"/>
-					
-					<p:dataTable value="#{item.productList}" var="o"  id="productTable" editMode="row"
-						style="width: 860px;" editable="true" scrollable="true" 
-						scrollHeight="80" scrollRows="2">
+
+					<p:fileUpload
+						fileUploadListener="#{fileUploadController.uploadFile}"
+						mode="advanced" dragDropSupport="false" update="messages"
+						sizeLimit="100000" fileLimit="3"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+					<p:spacer height="20px" />
+
+					<p:dataTable value="#{item.productList}" var="o" id="productTable"
+						editMode="row" style="width: 860px;" editable="true"
+						scrollable="true" scrollHeight="80" scrollRows="2">
 						<f:facet name="header">  
                         Product List  
                     </f:facet>
-						<p:ajax event="rowEdit" listener="#{productController.onEdit}"  update=":form1:productTable"  />
-						<p:ajax event="rowEditCancel" listener="#{productController.onCancel}"  update=":form1:productTable"  />
+						<p:ajax event="rowEdit" listener="#{productController.onEdit}"
+							update=":form1:productTable" />
+						<p:ajax event="rowEditCancel"
+							listener="#{productController.onCancel}"
+							update=":form1:productTable" />
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Item Name" />
@@ -101,8 +109,8 @@
 						</p:column>
 
 						<p:column headerText="Options">
-						<p:rowEditor/>
-	                </p:column>
+							<p:rowEditor />
+						</p:column>
 					</p:dataTable>
 				</p:panel>
 			</h:form>

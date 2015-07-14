@@ -11,35 +11,39 @@
 <h:body>
 	<ui:composition template="/WEB-INF/templates/template.xhtml">
 		<ui:define name="content">
-				<h:form id="categoryForm">
-					<p:growl id="messages" showDetail="true" />
+			<h:form id="categoryForm">
+				<p:growl id="messages" showDetail="false" />
 
-					<p:panel header="Category" styleClass="content">
-						<center>
-							<p:panelGrid columns="2">
-								<h:outputLabel for="categoryName" value="Category Name: " />
-								<p:inputText value="#{categoryItem.categoryName}"
-									id="categoryName" />
-								<h:outputLabel for="subCategoryName" value="Description: " />
-								<p:inputText value="#{categoryItem.description}"
-									id="subCategoryName" />
-								<f:facet name="footer">
-									<h:commandButton value="Add Category"
-										action="#{categoryController.addNewCategory()}" />
-								</f:facet>
-							</p:panelGrid>
-						</center>
+				<p:panel header="Category" styleClass="content">
+					<center>
+						<p:panelGrid columns="2">
+							<h:outputLabel for="categoryName" value="Category Name: " />
+							<p:inputText value="#{categoryItem.categoryName}"  required="true" label="Category Name"
+								id="categoryName" />
+							<h:outputLabel for="categoryDescription" value="Description: " />
+							<p:inputText value="#{categoryItem.description}" required="true" label="Category Description"
+								id="categoryDescription" />
+							<f:facet name="footer">
+								<h:commandButton value="Add Category"
+									action="#{categoryController.addNewCategory()}" />
+							</f:facet>
+						</p:panelGrid>
+					</center>
 
-						<p:spacer height="30px;" />
-						<p:dataTable value="#{categoryItem.catList}" var="c" id="categoryTable" rowKey="#{c.id}" 
-							style="width: 660px;" editable="true" scrollable="true" editMode="row"
-							scrollHeight="100" scrollRows="3">
-							<p:ajax event="rowEdit" listener="#{categoryController.onEdit}" process="@this" update=":categoryForm:categoryTable"/>
-							<p:ajax event="rowEditCancel" listener="#{categoryController.onCancel}" process="@this" update=":categoryForm:categoryTable"/>
-							<f:facet name="header">  
+					<p:spacer height="30px;" />
+					<p:dataTable value="#{categoryItem.catList}" var="c"
+						id="categoryTable" rowKey="#{c.id}" style="width: 660px;"
+						editable="true" scrollable="true" editMode="row"
+						scrollHeight="100" scrollRows="3">
+						<p:ajax event="rowEdit" listener="#{categoryController.onEdit}"
+							process="@this" update=":categoryForm:categoryTable" />
+						<p:ajax event="rowEditCancel"
+							listener="#{categoryController.onCancel}" process="@this"
+							update=":categoryForm:categoryTable" />
+						<f:facet name="header">  
 	                        Category List  
 	                   			 </f:facet>
-							<p:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Category Name" />
 							</f:facet>
@@ -52,7 +56,7 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-						
+
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Description" />
@@ -66,13 +70,13 @@
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-						
-	                    <p:column headerText="Options">
-						<p:rowEditor/>
-	                </p:column>
-						</p:dataTable>
-					</p:panel>
-				</h:form>
+
+						<p:column headerText="Options">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>
