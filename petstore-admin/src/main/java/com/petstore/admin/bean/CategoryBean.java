@@ -9,18 +9,36 @@ import com.petstore.model.bo.Product;
  * @author analian
  *
  */
-public class CategoryBean implements Serializable  {
+public class CategoryBean implements Serializable 
+{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7613789070799055414L;
 	
+	/**
+	 * 
+	 */
 	private int id;
+	/**
+	 * 
+	 */
 	private String categoryName;
+	/**
+	 * 
+	 */
 	private String description;
+	/**
+	 * 
+	 */
 	Set<Product> products;
 	
-	public CategoryBean(String categoryName, String description) {
+	/**
+	 * @param categoryName
+	 * @param description
+	 */
+	public CategoryBean(String categoryName, String description) 
+	{
 		this.categoryName = categoryName;
 		this.description = description;
 	}
@@ -28,53 +46,68 @@ public class CategoryBean implements Serializable  {
 	/**
 	 * @return the categoryName
 	 */
-	public String getCategoryName() {
+	public String getCategoryName() 
+	{
 		return categoryName;
 	}
 	/**
 	 * @param categoryName the categoryName to set
 	 */
-	public void setCategoryName(String categoryName) {
+	public void setCategoryName(String categoryName) 
+	{
 		this.categoryName = categoryName;
 	}
 	/**
 	 * @return the serialversionuid
 	 */
-	public static long getSerialversionuid() {
+	public static long getSerialversionuid() 
+	{
 		return serialVersionUID;
 	}
-	public void setDescription(String description) {
+	/**
+	 * @param description
+	 */
+	public void setDescription(String description) 
+	{
 		this.description = description;
 	}
-	public String getDescription() {
+	/**
+	 * @return
+	 */
+	public String getDescription() 
+	{
 		return description;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
-		return id;
+	public int getId() 
+	{
+		return this.id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
 	}
 
 	/**
 	 * @return the products
 	 */
-	public Set<Product> getProducts() {
-		return products;
+	public Set<Product> getProducts() 
+	{
+		return this.products;
 	}
 
 	/**
 	 * @param products the products to set
 	 */
-	public void setProducts(Set<Product> products) {
+	public void setProducts(Set<Product> products) 
+	{
 		this.products = products;
 	}
 

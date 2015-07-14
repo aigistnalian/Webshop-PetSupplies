@@ -28,23 +28,34 @@ import com.petstore.service.ProductService;
  */
 @ManagedBean(name = "productController")
 @RequestScoped
-public class ProductController implements Serializable {
-	final static Logger log = Logger.getLogger(ProductController.class);
+public class ProductController implements Serializable 
+{
+	/**
+	 * 
+	 */
+	static final Logger log = Logger.getLogger(ProductController.class);
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6612718331444190838L;
 
+	/**
+	 * 
+	 */
 	@Inject
 	ProductService productService;
 
+	/**
+	 * 
+	 */
 	@ManagedProperty(value = "#{item}")
 	private ProductItem item;
 
 	/**
 	 * @return
 	 */
-	public String addAction() {
+	public String addAction() 
+	{
 		log.info("Inside Product Controller --> Add Action");
 		ProductBean productItem = new ProductBean(item.getItem(),
 				item.getDescription(), item.getPrice());
@@ -55,10 +66,12 @@ public class ProductController implements Serializable {
 		product.setName(item.getItem());
 		product.setPrice(BigDecimal.valueOf(item.getPrice()));
 
-		try { // For Fun --> Randomly generated Stock keeping unit value
-			product.setSku(new String(SecureRandom.getInstance("SHA1PRNG")
-					.generateSeed(6)));
-		} catch (NoSuchAlgorithmException e) {
+		try 
+		{ // For Fun --> Randomly generated Stock keeping unit value
+			product.setSku(new String(SecureRandom.getInstance("SHA1PRNG").generateSeed(6)));
+		} 
+		catch (NoSuchAlgorithmException e) 
+		{
 			e.printStackTrace();
 		}
 
@@ -74,7 +87,8 @@ public class ProductController implements Serializable {
 	/**
 	 * @param event
 	 */
-	public void onEdit(RowEditEvent editEvent) {
+	public void onEdit(RowEditEvent editEvent) 
+	{
 		log.debug("Edit event fired for Product -->" + editEvent);
 		FacesMessage msg = new FacesMessage("Item Edited", "FS");
 		Product product = mapBeanToBo(editEvent);
@@ -85,8 +99,9 @@ public class ProductController implements Serializable {
 	/**
 	 * @param event
 	 */
-	public void onCancel(RowEditEvent cancelEvent) {
-		log.info("Delete event fired of Product " );
+	public void onCancel(RowEditEvent cancelEvent) 
+	{
+		log.info("Delete event fired of Product ");
 		FacesMessage msg = new FacesMessage("Item Removed");
 		Product product = mapBeanToBo(cancelEvent);
 		productService.removeSelectedProduct(product);
@@ -100,7 +115,8 @@ public class ProductController implements Serializable {
 	 * @param event
 	 * @return
 	 */
-	private Product mapBeanToBo(RowEditEvent event) {
+	private Product mapBeanToBo(RowEditEvent event) 
+	{
 		DataTable dataTable = (DataTable) event.getSource();
 		log.debug("Datatable source --->" + dataTable);
 		ProductBean pBean = (ProductBean) dataTable.getRowData();
@@ -118,15 +134,17 @@ public class ProductController implements Serializable {
 	/**
 	 * @return the item
 	 */
-	public ProductItem getItem() {
-		return item;
+	public ProductItem getItem() 
+	{
+		return this.item;
 	}
 
 	/**
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(ProductItem item) {
+	public void setItem(ProductItem item) 
+	{
 		this.item = item;
 	}
 }

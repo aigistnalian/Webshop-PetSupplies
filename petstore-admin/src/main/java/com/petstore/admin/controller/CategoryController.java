@@ -25,29 +25,41 @@ import com.petstore.service.CategoryService;
  */
 @ManagedBean(name="categoryController")
 @RequestScoped
-public class CategoryController implements Serializable {
+public class CategoryController implements Serializable 
+{
+	/**
+	 * 
+	 */
+	static final Logger log = Logger.getLogger(CategoryController.class);
 
-	final static Logger log = Logger.getLogger(CategoryController.class);
+	/**
+	 * 
+	 */
+	@Inject
+	CategoryService categoryService;
+	
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -193807208415040894L;
 
-	@Inject
-	CategoryService categoryService;
 	
+	
+	/**
+	 * 
+	 */
 	@ManagedProperty(value = "#{categoryItem}")
 	private CategoryItem categoryItem;
 	
 	/**
 	 * @return
 	 */
-	public String addNewCategory() {
+	public String addNewCategory() 
+	{
 		
 		log.info("Category controller--> Adding new category");	
-		CategoryBean bean = new CategoryBean(categoryItem.getCategoryName(),
-				categoryItem.getDescription());
+		CategoryBean bean = new CategoryBean(categoryItem.getCategoryName(), categoryItem.getDescription());
 		categoryItem.getCatList().add(bean);
 		
 		ProductCategory category = new ProductCategory();
@@ -65,7 +77,8 @@ public class CategoryController implements Serializable {
 	/**
 	 * @param event
 	 */
-	public void onEdit(RowEditEvent event) {
+	public void onEdit(RowEditEvent event) 
+	{
 		log.debug("Edit event triggered for category");
 		FacesMessage msg = new FacesMessage("Item Edited",
 				((CategoryBean) event.getObject()).getCategoryName());
@@ -77,7 +90,8 @@ public class CategoryController implements Serializable {
 	/**
 	 * @param event
 	 */
-	public void onCancel(RowEditEvent cancelEvent) {
+	public void onCancel(RowEditEvent cancelEvent) 
+	{
 		log.debug("Delete event triggered for category");
 		FacesMessage msg = new FacesMessage("Item Cancelled");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -94,7 +108,8 @@ public class CategoryController implements Serializable {
 	 * @param event
 	 * @return
 	 */
-	private ProductCategory mapBeanToBo(RowEditEvent event) {
+	private ProductCategory mapBeanToBo(RowEditEvent event) 
+	{
 		
 		DataTable dataTable = (DataTable)event.getSource();
 		log.debug("event source is -->" + dataTable.getRowData());
@@ -113,14 +128,16 @@ public class CategoryController implements Serializable {
 	/**
 	 * @return the categoryItem
 	 */
-	public CategoryItem getCategoryItem() {
-		return categoryItem;
+	public CategoryItem getCategoryItem() 
+	{
+		return this.categoryItem;
 	}
 
 	/**
 	 * @param categoryItem the categoryItem to set
 	 */
-	public void setCategoryItem(CategoryItem categoryItem) {
+	public void setCategoryItem(CategoryItem categoryItem)
+	{
 		this.categoryItem = categoryItem;
 	}
 
@@ -128,7 +145,8 @@ public class CategoryController implements Serializable {
 	/**
 	 * @return the serialversionuid
 	 */
-	public static long getSerialversionuid() {
+	public static long getSerialversionuid() 
+	{
 		return serialVersionUID;
 	}
 }

@@ -22,8 +22,12 @@ import com.petstore.util.Util;
  */
 @ManagedBean(name = "sidebar")
 @SessionScoped
-public class SideBarController implements Serializable {
-	final static Logger log = Logger.getLogger(SideBarController.class);
+public class SideBarController implements Serializable 
+{
+	/**
+	 * 
+	 */
+	static final Logger log = Logger.getLogger(SideBarController.class);
 	/**
 	 * 
 	 */
@@ -32,13 +36,17 @@ public class SideBarController implements Serializable {
 	/**
 	 * @return
 	 */
-	public String sendToCategoryPage() {
+	public String sendToCategoryPage() 
+	{
 		HttpSession session = Util.getSession();
 		String user = (String) session.getAttribute(Constants.USERNAME);
-		if (user != null) {
+		if (user != null) 
+		{
 			return Constants.CATEGORY_PAGE_STRING;
-		} else {
-			   showInvalidLinkClickedMessage();
+		}
+		else 
+		{
+			   this.showInvalidLinkClickedMessage();
 			return Constants.LANDING_PAGE_STRING;
 		}
 	}
@@ -46,7 +54,8 @@ public class SideBarController implements Serializable {
 	/**
 	 * 
 	 */
-	private void showInvalidLinkClickedMessage() {
+	private void showInvalidLinkClickedMessage() 
+	{
 		FacesContext.getCurrentInstance().addMessage(
 		              null,
 		              new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -57,23 +66,28 @@ public class SideBarController implements Serializable {
 	 /**
 	 * @return
 	 */
-	public String logout() {
+	public String logout() 
+	{
 			log.debug("LOGGING OUT!");
 	        HttpSession session = Util.getSession();
 	        session.invalidate();
 	         return Constants.LOGIN_REDIRECT_STRING;
-	     }
+	 }
 
 	/**
 	 * @return
 	 */
-	public String sendToProductPage() {
+	public String sendToProductPage() 
+	{
 		HttpSession session = Util.getSession();
 		String user = (String) session.getAttribute(Constants.USERNAME);
-		if (user != null) {
+		if (user != null) 
+		{
 			return Constants.PRODUCT_PAGE_STRING;
-		} else {
-			showInvalidLinkClickedMessage();
+		} 
+		else
+		{
+			this.showInvalidLinkClickedMessage();
 			return Constants.LANDING_PAGE_STRING;
 		}
 	}

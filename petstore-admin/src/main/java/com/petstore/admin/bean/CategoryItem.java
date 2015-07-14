@@ -18,77 +18,109 @@ import com.petstore.service.CategoryService;
  */
 @ManagedBean(name = "categoryItem")
 @RequestScoped
-public class CategoryItem implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	private String categoryName;
-	private String description;
-
-	@Inject
-	CategoryService categoryService;
-
-	@PostConstruct
-	public void init() {
-		refreshCategories();
-	}
-
+public class CategoryItem implements Serializable 
+{
 	/**
 	 * 
 	 */
-	private void refreshCategories() {
-		List<ProductCategory> categoriesList = categoryService.findAllCategories();
-		catList.clear();
-		System.out.println(categoriesList);
-		
-		if (categoriesList != null) {
-			for (ProductCategory productCategory : categoriesList) {
-				CategoryBean bean = new CategoryBean(productCategory.getName(),
-						productCategory.getDescription());
-				bean.setId(productCategory.getId());
-				bean.setProducts(productCategory.getProducts());
-				catList.add(bean);
-			}
-		}
-	}
+	@Inject
+	CategoryService categoryService;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private String categoryName;
+	/**
+	 * 
+	 */
+	private String description;
 
 	/**
 	 * 
 	 */
 	private  ArrayList<CategoryBean> catList = new ArrayList<CategoryBean>();
 
+
+	/**
+	 * 
+	 */
+	@PostConstruct
+	public void init() 
+	{
+		this.refreshCategories();
+	}
+
+	/**
+	 * 
+	 */
+	private void refreshCategories() 
+	{
+		List<ProductCategory> categoriesList = categoryService.findAllCategories();
+		this.catList.clear();
+		
+		if (categoriesList != null) 
+		{
+			for (ProductCategory productCategory : categoriesList) 
+			{
+				CategoryBean bean = new CategoryBean(productCategory.getName(),
+						productCategory.getDescription());
+				bean.setId(productCategory.getId());
+				bean.setProducts(productCategory.getProducts());
+				this.catList.add(bean);
+			}
+		}
+	}
+
+
 	/**
 	 * @return
 	 */
-	public ArrayList<CategoryBean> getCatList() {
-		return catList;
+	public ArrayList<CategoryBean> getCatList() 
+	{
+		return this.catList;
 	}
 
 	/**
 	 * @return the categoryName
 	 */
-	public String getCategoryName() {
-		return categoryName;
+	public String getCategoryName() 
+	{
+		return this.categoryName;
 	}
 
 	/**
 	 * @param categoryName
 	 *            the categoryName to set
 	 */
-	public void setCategoryName(String categoryName) {
+	public void setCategoryName(String categoryName) 
+	{
 		this.categoryName = categoryName;
 	}
 
-	public void setDescription(String description) {
+	/**
+	 * @param description
+	 */
+	public void setDescription(String description) 
+	{
 		this.description = description;
 	}
-	public String getDescription() {
+	/**
+	 * @return
+	 */
+	public String getDescription() 
+	{
 		return description;
 	}
 
 	/**
 	 * @return the serialversionuid
 	 */
-	public static long getSerialversionuid() {
+	public static long getSerialversionuid() 
+	{
 		return serialVersionUID;
 	}
 }

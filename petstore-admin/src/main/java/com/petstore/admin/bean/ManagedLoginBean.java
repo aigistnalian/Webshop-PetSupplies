@@ -22,28 +22,44 @@ import com.petstore.util.Util;
  */
 @ManagedBean(name="loginBean")
 @SessionScoped
-public class ManagedLoginBean implements Serializable {
-
+public class ManagedLoginBean implements Serializable 
+{
+    /**
+     * 
+     */
+    @Inject 
+    LoginService loginService;
+    
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7829457603314371883L;
+    /**
+     * 
+     */
     private String password;
+    /**
+     * 
+     */
     private String message, uname;
     
-    @Inject 
-    LoginService loginService;
-    
-    public String loginProject(){
+
+    /**
+     * @return
+     */
+    public String loginProject()
+    {
     	  boolean result = loginService.validateAdminUserLogin(uname, password);
           System.out.println(result);
-          if (result) {
+          if (result) 
+          {
               // get Http Session and store username
               HttpSession session = Util.getSession();
               session.setAttribute(Constants.USERNAME, uname);
               return Constants.LANDING_PAGE_STRING;
-          } else {
-   
+          } 
+          else 
+          {
               FacesContext.getCurrentInstance().addMessage(
                       null,
                       new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -58,49 +74,56 @@ public class ManagedLoginBean implements Serializable {
 	/**
 	 * @return the password
 	 */
-	public String getPassword() {
-		return password;
+	public String getPassword() 
+	{
+		return this.password;
 	}
 
 	/**
 	 * @param password the password to set
 	 */
-	public void setPassword(String password) {
+	public void setPassword(String password) 
+	{
 		this.password = password;
 	}
 
 	/**
 	 * @return the message
 	 */
-	public String getMessage() {
-		return message;
+	public String getMessage() 
+	{
+		return this.message;
 	}
 
 	/**
 	 * @param message the message to set
 	 */
-	public void setMessage(String message) {
+	public void setMessage(String message) 
+	{
 		this.message = message;
 	}
 
 	/**
 	 * @return the uname
 	 */
-	public String getUname() {
-		return uname;
+	public String getUname() 
+	{
+		return this.uname;
 	}
 
 	/**
 	 * @param uname the uname to set
 	 */
-	public void setUname(String uname) {
+	public void setUname(String uname) 
+	{
 		this.uname = uname;
 	}
 
 	/**
 	 * @return the serialversionuid
 	 */
-	public static long getSerialversionuid() {
+	public static long getSerialversionuid() 
+	{
 		return serialVersionUID;
 	}
 }
